@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xero.Api.Common;
 using Xero.Api.Core.Endpoints.Base;
@@ -14,6 +15,8 @@ namespace Xero.Api.Core.Endpoints
         IPageableEndpoint<IContactsEndpoint>
     {
         IContactsEndpoint IncludeArchived(bool include);
+        //Support requesting multiple contact full details
+        IContactsEndpoint ContactIds(IEnumerable<Guid> ids);
         ContactCisSetting GetCisSettings(Guid id);
     }
 
@@ -39,6 +42,12 @@ namespace Xero.Api.Core.Endpoints
                 AddParameter("includeArchived", true);
             }
 
+            return this;
+        }
+
+        public IContactsEndpoint ContactIds(IEnumerable<Guid> ids)
+        {
+            AddParameter("ids", string.Join(",", ids));
             return this;
         }
 

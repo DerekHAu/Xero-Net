@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Xero.Api.Core.Model.Status;
@@ -14,6 +15,21 @@ namespace CoreTests.Integration.Contacts
             Given_a_contact();
 
             Assert.True(Api.Contacts.Page(1).Find().Any());
+        }
+
+        [Test]
+        public void find_by_ids()
+        {
+            var listOfContacts = new List<Guid>
+            {
+                Given_a_contact().Id,
+                Given_a_contact().Id,
+                Given_a_contact().Id,
+                Given_a_contact().Id,
+                Given_a_contact().Id
+            };
+
+            Assert.True(Api.Contacts.ContactIds(listOfContacts).Find().Count() == 5);
         }
 
         [Test]
